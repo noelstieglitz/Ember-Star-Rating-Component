@@ -6,16 +6,16 @@ App.Router.map( function(){
 
 App.IndexRoute = Ember.Route.extend({
     model: function() {
-        return App.Movies;
+        return this.store.find(App.Movie);
     }
 });
 
 App.IndexController = Ember.ArrayController.extend({
     actions : {
-        rateIt : function( movie ){
-            alert('rate from indexcontroller.!');
+        rateMovie : function( movie, rating ){
             debugger;
-            this.set( 'model', 1);
+            var movie = this.store.find(App.Movie, movie.id);
+            movie.set('starRating', rating);
         }
     }
 });
@@ -24,24 +24,19 @@ App.StarRatingComponent = Ember.Component.extend({
     maxStars: 0,
     starRating: 0,
     stars: [],
-    actions: {
-        rateMovie: function() {
-            debugger;
-            //this.sendAction('submit, {
-        }
+    click: function(anything){
+        var rating = this.$(anything.target).attr('id');
+        this.sendAction('action',this.get('param'), rating);
     },
-    /*click: function(anything){
-        debugger;
-        alert('click!');
-    },*/
     didInsertElement: function() {
+        this._super();
         this.initStars();
         this.setStars();
     },
     initStars: function() {
         var stars = [], i = 0;
         for(i = 0; i < this.get('maxStars'); i++){
-            stars.pushObject(Em.Object.create({empty:true}));
+            stars.pushObject(Em.Object.create({empty:true, index:i+1}));
         }
         this.set('stars', stars);
     },
@@ -53,8 +48,15 @@ App.StarRatingComponent = Ember.Component.extend({
     }
 });
 
+App.ApplicationAdapter = DS.FixtureAdapter.extend();
 
-App.Movies = [
+App.Movie = DS.Model.extend({
+    title: DS.attr('string'),
+    maxStarRating: DS.attr('number', {defaultValue: 5}),
+    starRating: DS.attr('string')
+});
+
+App.Movie.FIXTURES = [
     {
         id : 1,
         title : 'Blood Sport',
