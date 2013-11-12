@@ -1,7 +1,7 @@
-Ember-Rating-Component
+Ember Star Rating Component
 ======================
 
-Create a reusable rating component in Ember.js
+A reusable star rating component and demo app built in Ember.js.  Check out [the blog post](google.com) for more details.
 
-Check out the related blog: 
+![Image Alt](http://i.imgur.com/uXOFzpW.png)
 
