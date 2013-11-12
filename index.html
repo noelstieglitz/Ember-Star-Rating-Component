@@ -25,7 +25,7 @@
 <script type="text/x-handlebars" data-template-name="movie">
     <div class="movie-item">
         <h1>{{movie.title}}</h1>
-        <span>{{star-rating starRating=movie.starRating maxStars=movie.maxStarRating action="rateMovie" param=movie }}</span>
+        {{star-rating starRating=movie.starRating maxStars=movie.maxStarRating action="rateMovie" param=movie }}
         <small>Year Released </small><label> {{movie.releasedYear}}</label>
         <br/>
         <small>Critic Review </small><label> {{movie.review}}</label>
