@@ -39,24 +39,15 @@ App.StarRatingComponent = Ember.Component.extend({
         this.sendAction('action',this.get('param'), rating);
     },
     didInsertElement: function() {
-        this.setStars();
+        this.setRating();
     },
-    initStars: function() {
+    setRating: function() {
         var stars = [], i = 0;
+        var starRating = this.get('starRating');
         for(i = 0; i < this.get('maxStars'); i++){
-            stars.pushObject(Em.Object.create({empty:true, index:i+1}));
+            stars.pushObject(Em.Object.create({empty:i >= starRating, index:i+1}));
         }
         this.set('stars', stars);
-    },
-    setStars: function() {
-        var newRating = this.get('starRating');
-        if(newRating){
-            this.initStars();
-            var counts = [], i = 0;
-            for(i = 0; i <newRating; i++){
-                this.get('stars').objectAt(i).set('empty', counts[i]);
-            }
-        }
     }.observes('starRating')
 });
 
