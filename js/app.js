@@ -1,20 +1,30 @@
 App = Ember.Application.create();
 
-App.IndexRoute = Ember.Route.extend({
+App.Router.map(function() {
+    this.resource('movies', {path:'/'}, function(){
+        this.resource('movie', {path: '/:movie_id'});
+    });
+});
+
+App.MoviesRoute = Ember.Route.extend({
     model: function() {
-        return movies;
+        return this.store.find(App.Movie);
     }
 });
 
-App.IndexController = Ember.ArrayController.extend({
+App.MovieRoute = Ember.Route.extend({
+    model: function(param) {
+        return this.store.find(App.Movie,param.movie_id);
+    }
+});
+
+App.MovieController = Ember.ObjectController.extend({
     actions : {
         rateMovie : function( movie, rating ){
             if(!rating){
                 return;
             }
-
-            //TODO - update the model
-            debugger;
+            this.get('model').set('starRating', rating);
         }
     }
 });
@@ -26,7 +36,6 @@ App.StarRatingComponent = Ember.Component.extend({
     click: function(ev){
         var rating = this.$(ev.target).attr('id');
         this.set('starRating', rating);
-        debugger;
         this.sendAction('action',this.get('param'), rating);
     },
     didInsertElement: function() {
@@ -51,54 +60,40 @@ App.StarRatingComponent = Ember.Component.extend({
     }.observes('starRating')
 });
 
-movies= [
+App.ApplicationAdapter = DS.FixtureAdapter.extend();
+
+App.Movie = DS.Model.extend({
+    title: DS.attr('string'),
+    starRating: DS.attr('number'),
+    maxStarRating: DS.attr('number'),
+    releasedYear: DS.attr('number'),
+    review: DS.attr('string')
+});
+
+App.Movie.FIXTURES = [
     {
         id : 1,
         title : 'Blood Sport',
         starRating: 3,
         maxStarRating: 5,
-        actors : [
-            {
-                firstName: 'Patrick',
-                lastName: 'Swayze'
-            },
-            {
-                firstName: 'Arnold',
-                lastName: 'Swartznegger'
-            }
-        ]
+        releasedYear: 1990,
+        review: "An Epic story of love and loss."
     },
     {
         id : 2,
         title : 'Blood Sport II: 2 much 2 Blood',
         starRating: 4,
         maxStarRating: 5,
-        actors : [
-            {
-                firstName: 'Pat',
-                lastName: 'Swayzeinator'
-            },
-            {
-                firstName: 'Rambo',
-                lastName: 'Mcqueen'
-            }
-        ]
+        releasedYear: 1991,
+        review: "Based on the coming of age novel \"Never Been in Love... twice\"."
     },
     {
         id : 3,
         title : 'Blood Sport III:   O(log N) Blood Growth',
         starRating: 5,
         maxStarRating: 5,
-        actors : [
-            {
-                firstName: 'Pat',
-                lastName: 'Swayzeinator'
-            },
-            {
-                firstName: 'Rambo',
-                lastName: 'Mcqueen'
-            }
-        ]
+        releasedYear: 1992,
+        review: "The third and final conclusion to the trilogy of our time."
     }
 ];
 

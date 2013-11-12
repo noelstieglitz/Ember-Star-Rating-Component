@@ -2,53 +2,48 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Ember Starter Kit</title>
-  <link rel="stylesheet" href="css/normalize.css">
+<title>Notflix</title>
+  <link rel="stylesheet" href="css/libs/normalize.css">
+  <link rel="stylesheet" href="css/libs/bootstrap.css">
   <link rel="stylesheet" href="css/style.css">
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
-<script type="text/x-handlebars" data-template-name="application">
-    <h2>Rate movies</h2>
-    {{outlet}}
+<script type="text/x-handlebars" data-template-name="movies">
+    <div class="title">
+        <h2>Welcome to Notflix</h2>
+    </div>
+    <hr/>
+    <div class="title">
+        <h3>Recently Watched</h3>
+    </div>
+    {{#each movie in model }}
+        {{render "movie" movie}}
+    {{/each}}
 </script>
 
-<script type="text/x-handlebars" data-template-name="index">
-    <h3>New Releases</h3>
-    {{#each movie in model }}
-    <div class="movie-group">
-        <h1 class="movie-title">{{movie.title}}</h1>
-        <span>
-            {{star-rating starRating=movie.starRating maxStars=movie.maxStarRating action="rateMovie" param=movie }}
-        </span>
-        <h3>Starring:</h3>
-        <ul>
-            {{#each movie.actors}}
-            <li>
-                <div>
-                    <div>{{firstName}} {{lastName}}</div>
-                </div>
-            </li>
-            {{/each}}
-        </ul>
+<script type="text/x-handlebars" data-template-name="movie">
+    <div class="movie-item">
+        <h1>{{movie.title}}</h1>
+        <span>{{star-rating starRating=movie.starRating maxStars=movie.maxStarRating action="rateMovie" param=movie }}</span>
+        <small>Year Released </small><label> {{movie.releasedYear}}</label>
+        <br/>
+        <small>Critic Review </small><label> {{movie.review}}</label>
 
     </div>
-    {{/each}}
 </script>
 
 <script type="text/x-handlebars" id="components/star-rating">
-    <ul>
+    <ul style="padding: 0">
     {{#each star in stars}}
-        <li style="color: #FFD700" {{bind-attr class=":glyphicon star.empty:glyphicon-star-empty:glyphicon-star"}} {{bind-attr id="star.index"}}></li>
+        <li style="color: #FFD700;" {{bind-attr class=":glyphicon star.empty:glyphicon-star-empty:glyphicon-star"}} {{bind-attr id="star.index"}}></li>
     {{/each}}
     </ul>
 </script>
-
-    <script src="js/libs/jquery-1.9.1.js"></script>
-  <script src="js/libs/handlebars-1.0.0.js"></script>
-  <script src="js/libs/ember-1.1.2.js"></script>
-  <script src="js/libs/ember-data.js"></script>
-  <script src="js/app.js"></script>
+<script src="js/libs/jquery-1.9.1.js"></script>
+<script src="js/libs/handlebars-1.0.0.js"></script>
+<script src="js/libs/ember-1.1.2.js"></script>
+<script src="js/libs/ember-data.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>
