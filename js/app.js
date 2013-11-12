@@ -21,9 +21,6 @@ App.MovieRoute = Ember.Route.extend({
 App.MovieController = Ember.ObjectController.extend({
     actions : {
         rateMovie : function( movie, rating ){
-            if(!rating){
-                return;
-            }
             this.get('model').set('starRating', rating);
         }
     }
@@ -35,6 +32,9 @@ App.StarRatingComponent = Ember.Component.extend({
     stars: [],
     click: function(ev){
         var rating = this.$(ev.target).attr('id');
+        if(!rating){
+            return;
+        }
         this.set('starRating', rating);
         this.sendAction('action',this.get('param'), rating);
     },
