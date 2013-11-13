@@ -38,9 +38,6 @@ App.StarRatingComponent = Ember.Component.extend({
         this.set('starRating', rating);
         this.sendAction('action',this.get('param'), rating);
     },
-    didInsertElement: function() {
-        this.setRating();
-    },
     setRating: function() {
         var stars = [], i = 0;
         var starRating = this.get('starRating');
@@ -48,7 +45,7 @@ App.StarRatingComponent = Ember.Component.extend({
             stars.pushObject(Em.Object.create({empty:i >= starRating, index:i+1}));
         }
         this.set('stars', stars);
-    }.observes('starRating')
+    }.observes('starRating').on('didInsertElement')
 });
 
 App.ApplicationAdapter = DS.FixtureAdapter.extend();
