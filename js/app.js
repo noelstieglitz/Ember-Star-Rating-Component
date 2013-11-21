@@ -21,7 +21,9 @@ App.MovieRoute = Ember.Route.extend({
 App.MovieController = Ember.ObjectController.extend({
     actions : {
         rateMovie : function( rating ){
-            this.get('model').set('starRating', rating);
+            //We don't really need the action in this example, but I'll leave it to demonstrate how you
+            //could apply other logic in your app in response to a change in the directive
+            //TODO - sync w/server or do whatever you want here
         }
     }
 });
@@ -37,9 +39,9 @@ App.StarRatingComponent = Ember.Component.extend({
         }
     },
     setRating: function() {
-        var stars = [], i = 0;
+        var stars = [];
         var starRating = this.get('starRating');
-        for(i = 0; i < this.get('maxStars'); i++){
+        for(var i = 0; i < this.get('maxStars'); i++){
             stars.pushObject(Em.Object.create({empty:i >= starRating, index:i+1}));
         }
         this.set('stars', stars);

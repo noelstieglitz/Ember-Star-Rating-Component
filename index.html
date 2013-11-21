@@ -25,11 +25,11 @@
 <script type="text/x-handlebars" data-template-name="movie">
     <div class="movie-item">
         <h1>{{movie.title}}</h1>
+        //don't really need the action hook, but it does provide flexibility
         {{star-rating starRating=movie.starRating maxStars=movie.maxStarRating action="rateMovie"}}
         <small>Year Released </small><label> {{movie.releasedYear}}</label>
         <br/>
         <small>Critic Review </small><label> {{movie.review}}</label>
-
     </div>
 </script>
 
